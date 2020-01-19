@@ -153,8 +153,8 @@ while running:
             if animation == "c":
                 screen.blit(joeshop_cimg, (1200 + scroll_x, 100))
 
-        if Area == "Joe's":
-
+        if Area == "Joe's": #jj
+            pass
 
         #Buddy animation
         if not A_prsd == 1 and not D_prsd == 1:
@@ -201,4 +201,7 @@ while running:
 
     pygame.time.wait(10)
     pygame.display.flip()
-    screen.fill((155, 155, 255))
+    if Area == "Outside":
+        screen.fill((155, 155, 255))
+    if Area == "Joe's":
+        screen.fill((204, 132, 132))
