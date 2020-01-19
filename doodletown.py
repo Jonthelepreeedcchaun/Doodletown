@@ -11,8 +11,11 @@ A_prsd = 0
 W_prsd = 0
 S_prsd = 0
 D_prsd = 0
+T_prsd = 0
 Enter_prsd = 0
+Space_prsd = 0
 Game_mode = "Menu"
+Area = "Outside"
 animation = "a"
 nmtntime = 5
 altcount = 20
@@ -27,10 +30,20 @@ buddy_1bimg = pygame.image.load('buddy_b1.png')
 buddy_2bimg = pygame.image.load('buddy_b2.png')
 buddy_1cimg = pygame.image.load('buddy_c1.png')
 buddy_2cimg = pygame.image.load('buddy_c2.png')
+buddy_1limg = pygame.image.load('buddy_walk1l.png')
+buddy_2limg = pygame.image.load('buddy_walk2l.png')
+buddy_1blimg = pygame.image.load('buddy_b1l.png')
+buddy_2blimg = pygame.image.load('buddy_b2l.png')
+buddy_1climg = pygame.image.load('buddy_c1l.png')
+buddy_2climg = pygame.image.load('buddy_c2l.png')
 
 tree_aimg = pygame.image.load('tree_a.png')
 tree_bimg = pygame.image.load('tree_b.png')
 tree_cimg = pygame.image.load('tree_c.png')
+
+joeshop_aimg = pygame.image.load("Joe's Flower Emporium_a.png")
+joeshop_bimg = pygame.image.load("Joe's Flower Emporium_b.png")
+joeshop_cimg = pygame.image.load("Joe's Flower Emporium_c.png")
 
 running = True
 while running:
@@ -48,6 +61,10 @@ while running:
                 D_prsd = 1
             if event.key == pygame.K_RETURN:
                 Enter_prsd = 1
+            if event.key == pygame.K_SPACE:
+                Space_prsd = 1
+            if event.key == pygame.K_t:
+                T_prsd = 1
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 A_prsd = 0
@@ -59,6 +76,10 @@ while running:
                 D_prsd = 0
             if event.key == pygame.K_RETURN:
                 Enter_prsd = 0
+            if event.key == pygame.K_SPACE:
+                Space_prsd = 0
+            if event.key == pygame.K_t:
+                T_prsd = 0
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
     mouse1, mouse3, mouse2 = pygame.mouse.get_pressed()
@@ -98,19 +119,42 @@ while running:
         screen.blit(text, text_rect)
 
     if Game_mode == "Start":
-        #background
-        if animation == "a":
-            screen.blit(tree_aimg, (800 + scroll_x, 450))
-        if animation == "b":
-            screen.blit(tree_bimg, (800 + scroll_x, 450))
-        if animation == "c":
-            screen.blit(tree_cimg, (800 + scroll_x, 450))
-        if animation == "a":
-            screen.blit(tree_aimg, (900 + scroll_x, 480))
-        if animation == "b":
-            screen.blit(tree_bimg, (900 + scroll_x, 480))
-        if animation == "c":
-            screen.blit(tree_cimg, (900 + scroll_x, 480))
+        if T_prsd == 1:
+            print("xpos is", scroll_x)
+
+        if Area == "Outside":
+            #left "boundary" illusion
+            if scroll_x > 1440 and D_prsd == 1:
+                scroll_x = 1440
+
+            #joe's Emporium (doors = -770)
+            if scroll_x < -325 and scroll_x > -1555 and W_prsd == 1:
+                Area = "Joe's"
+                scroll_x = 0
+
+            #background
+            if animation == "a":
+                screen.blit(tree_aimg, (500 + scroll_x, 450))
+            if animation == "b":
+                screen.blit(tree_bimg, (500 + scroll_x, 450))
+            if animation == "c":
+                screen.blit(tree_cimg, (500 + scroll_x, 450))
+            if animation == "a":
+                screen.blit(tree_aimg, (600 + scroll_x, 480))
+            if animation == "b":
+                screen.blit(tree_bimg, (600 + scroll_x, 480))
+            if animation == "c":
+                screen.blit(tree_cimg, (600 + scroll_x, 480))
+
+            if animation == "a":
+                screen.blit(joeshop_aimg, (1200 + scroll_x, 100))
+            if animation == "b":
+                screen.blit(joeshop_bimg, (1200 + scroll_x, 100))
+            if animation == "c":
+                screen.blit(joeshop_cimg, (1200 + scroll_x, 100))
+
+        if Area == "Joe's":
+
 
         #Buddy animation
         if not A_prsd == 1 and not D_prsd == 1:
@@ -122,7 +166,21 @@ while running:
                 screen.blit(buddy_cimg, (910, 650))
         if A_prsd == 1:
             scroll_x += 5
-            pass #reminder to make left walking a thing at some point
+            if animation == "a":
+                if altcount < 11:
+                    screen.blit(buddy_1limg, (910, 650))
+                if altcount > 10:
+                    screen.blit(buddy_2limg, (910, 650))
+            if animation == "b":
+                if altcount < 11:
+                    screen.blit(buddy_1blimg, (910, 650))
+                if altcount > 10:
+                    screen.blit(buddy_2blimg, (910, 650))
+            if animation == "c":
+                if altcount < 11:
+                    screen.blit(buddy_1climg, (910, 650))
+                if altcount > 10:
+                    screen.blit(buddy_2climg, (910, 650))
         if D_prsd == 1:
             scroll_x -= 5
             if animation == "a":
@@ -140,9 +198,6 @@ while running:
                     screen.blit(buddy_1cimg, (910, 650))
                 if altcount > 10:
                     screen.blit(buddy_2cimg, (910, 650))
-
-        #foreground
-
 
     pygame.time.wait(10)
     pygame.display.flip()
