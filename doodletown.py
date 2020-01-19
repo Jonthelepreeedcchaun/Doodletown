@@ -16,6 +16,7 @@ Game_mode = "Menu"
 animation = "a"
 nmtntime = 5
 altcount = 20
+scroll_x = 0
 
 buddy_aimg = pygame.image.load('buddy_a.png')
 buddy_bimg = pygame.image.load('buddy_b.png')
@@ -26,6 +27,10 @@ buddy_1bimg = pygame.image.load('buddy_b1.png')
 buddy_2bimg = pygame.image.load('buddy_b2.png')
 buddy_1cimg = pygame.image.load('buddy_c1.png')
 buddy_2cimg = pygame.image.load('buddy_c2.png')
+
+tree_aimg = pygame.image.load('tree_a.png')
+tree_bimg = pygame.image.load('tree_b.png')
+tree_cimg = pygame.image.load('tree_c.png')
 
 running = True
 while running:
@@ -93,6 +98,21 @@ while running:
         screen.blit(text, text_rect)
 
     if Game_mode == "Start":
+        #background
+        if animation == "a":
+            screen.blit(tree_aimg, (800 + scroll_x, 450))
+        if animation == "b":
+            screen.blit(tree_bimg, (800 + scroll_x, 450))
+        if animation == "c":
+            screen.blit(tree_cimg, (800 + scroll_x, 450))
+        if animation == "a":
+            screen.blit(tree_aimg, (900 + scroll_x, 480))
+        if animation == "b":
+            screen.blit(tree_bimg, (900 + scroll_x, 480))
+        if animation == "c":
+            screen.blit(tree_cimg, (900 + scroll_x, 480))
+
+        #Buddy animation
         if not A_prsd == 1 and not D_prsd == 1:
             if animation == "a":
                 screen.blit(buddy_aimg, (910, 650))
@@ -101,8 +121,10 @@ while running:
             if animation == "c":
                 screen.blit(buddy_cimg, (910, 650))
         if A_prsd == 1:
+            scroll_x += 5
             pass #reminder to make left walking a thing at some point
         if D_prsd == 1:
+            scroll_x -= 5
             if animation == "a":
                 if altcount < 11:
                     screen.blit(buddy_1img, (910, 650))
@@ -118,6 +140,9 @@ while running:
                     screen.blit(buddy_1cimg, (910, 650))
                 if altcount > 10:
                     screen.blit(buddy_2cimg, (910, 650))
+
+        #foreground
+
 
     pygame.time.wait(10)
     pygame.display.flip()
