@@ -119,6 +119,7 @@ while running:
         screen.blit(text, text_rect)
 
     if Game_mode == "Start":
+
         if T_prsd == 1:
             print("xpos is", scroll_x)
 
@@ -153,7 +154,7 @@ while running:
             if animation == "c":
                 screen.blit(joeshop_cimg, (1200 + scroll_x, 100))
 
-        if Area == "Joe's": #jj
+        if Area == "Joe's":
             pass
 
         #Buddy animation
@@ -164,7 +165,7 @@ while running:
                 screen.blit(buddy_bimg, (910, 650))
             if animation == "c":
                 screen.blit(buddy_cimg, (910, 650))
-        if A_prsd == 1:
+        if A_prsd == 1 and not D_prsd == 1:
             scroll_x += 5
             if animation == "a":
                 if altcount < 11:
