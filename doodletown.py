@@ -7,6 +7,7 @@ screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) #1920x1080
 #screen.blit(pygame.font.SysFont('Comic Sans MS', size).render("Text Here", False, (r, g, b)), (x, y))
 
 start_button_x = 0
+Quit_Button_x = 0
 A_prsd = 0
 W_prsd = 0
 S_prsd = 0
@@ -14,7 +15,9 @@ D_prsd = 0
 T_prsd = 0
 Enter_prsd = 0
 Space_prsd = 0
+Esc_prsd = 0
 Game_mode = "Menu"
+Paused = 0
 Area = "Outside"
 animation = "a"
 nmtntime = 5
@@ -44,6 +47,9 @@ tree_cimg = pygame.image.load('tree_c.png')
 joeshop_aimg = pygame.image.load("Joe's Flower Emporium_a.png")
 joeshop_bimg = pygame.image.load("Joe's Flower Emporium_b.png")
 joeshop_cimg = pygame.image.load("Joe's Flower Emporium_c.png")
+joedoor_aimg = pygame.image.load("Joe's Door_a.png")
+joedoor_bimg = pygame.image.load("Joe's Door_b.png")
+joedoor_cimg = pygame.image.load("Joe's Door_c.png")
 
 running = True
 while running:
@@ -51,6 +57,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                Esc_prsd = 1
             if event.key == pygame.K_a:
                 A_prsd = 1
             if event.key == pygame.K_w:
@@ -66,6 +74,8 @@ while running:
             if event.key == pygame.K_t:
                 T_prsd = 1
         if event.type == pygame.KEYUP:
+            if event.key == pygame.K_ESCAPE:
+                Esc_prsd = 0
             if event.key == pygame.K_a:
                 A_prsd = 0
             if event.key == pygame.K_w:
@@ -100,6 +110,9 @@ while running:
         animation = "a"
         nmtntime = 5
 
+    if Esc_prsd == 1:
+        Paused = 1
+
     if Game_mode == "Menu":
         font = pygame.font.Font(None, 65)
         text = font.render("DoodleTown", True, (155, 255, 155))
@@ -113,6 +126,13 @@ while running:
                 Game_mode = "Start"
         elif not start_button.collidepoint(mouse_x, mouse_y):
             start_button_x = 0
+        Quit_Button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - Quit_Button_x, 100 - Quit_Button_x), (1020 + Quit_Button_x, 100 - Quit_Button_x), (1020 + Quit_Button_x, 150 + Quit_Button_x), (900 - Quit_Button_x, 150 + Quit_Button_x)])
+        if Quit_Button.collidepoint(mouse_x, mouse_y):
+            Quit_Button_x = 10
+            if mouse1:
+                running = False
+        elif not Quit_Button.collidepoint(mouse_x, mouse_y):
+            Quit_Button = 0
         font = pygame.font.Font(None, 65)
         text = font.render("Start", True, (155, 255, 155))
         text_rect = text.get_rect(center = (960, 525))
@@ -165,44 +185,49 @@ while running:
                 screen.blit(buddy_bimg, (910, 650))
             if animation == "c":
                 screen.blit(buddy_cimg, (910, 650))
-        if A_prsd == 1 and not D_prsd == 1:
-            scroll_x += 5
-            if animation == "a":
-                if altcount < 11:
-                    screen.blit(buddy_1limg, (910, 650))
-                if altcount > 10:
-                    screen.blit(buddy_2limg, (910, 650))
-            if animation == "b":
-                if altcount < 11:
-                    screen.blit(buddy_1blimg, (910, 650))
-                if altcount > 10:
-                    screen.blit(buddy_2blimg, (910, 650))
-            if animation == "c":
-                if altcount < 11:
-                    screen.blit(buddy_1climg, (910, 650))
-                if altcount > 10:
-                    screen.blit(buddy_2climg, (910, 650))
-        if D_prsd == 1:
-            scroll_x -= 5
-            if animation == "a":
-                if altcount < 11:
-                    screen.blit(buddy_1img, (910, 650))
-                if altcount > 10:
-                    screen.blit(buddy_2img, (910, 650))
-            if animation == "b":
-                if altcount < 11:
-                    screen.blit(buddy_1bimg, (910, 650))
-                if altcount > 10:
-                    screen.blit(buddy_2bimg, (910, 650))
-            if animation == "c":
-                if altcount < 11:
-                    screen.blit(buddy_1cimg, (910, 650))
-                if altcount > 10:
-                    screen.blit(buddy_2cimg, (910, 650))
+        if Paused == 0:
+            if A_prsd == 1 and not D_prsd == 1:
+                scroll_x += 5
+                if animation == "a":
+                    if altcount < 11:
+                        screen.blit(buddy_1limg, (910, 650))
+                    if altcount > 10:
+                        screen.blit(buddy_2limg, (910, 650))
+                if animation == "b":
+                    if altcount < 11:
+                        screen.blit(buddy_1blimg, (910, 650))
+                    if altcount > 10:
+                        screen.blit(buddy_2blimg, (910, 650))
+                if animation == "c":
+                    if altcount < 11:
+                        screen.blit(buddy_1climg, (910, 650))
+                    if altcount > 10:
+                        screen.blit(buddy_2climg, (910, 650))
+            if D_prsd == 1:
+                scroll_x -= 5
+                if animation == "a":
+                    if altcount < 11:
+                        screen.blit(buddy_1img, (910, 650))
+                    if altcount > 10:
+                        screen.blit(buddy_2img, (910, 650))
+                if animation == "b":
+                    if altcount < 11:
+                        screen.blit(buddy_1bimg, (910, 650))
+                    if altcount > 10:
+                        screen.blit(buddy_2bimg, (910, 650))
+                if animation == "c":
+                    if altcount < 11:
+                        screen.blit(buddy_1cimg, (910, 650))
+                    if altcount > 10:
+                        screen.blit(buddy_2cimg, (910, 650))
+
+        if Paused == 1:
+            if Esc_prsd == 1:
+                Paused = 0
 
     pygame.time.wait(10)
     pygame.display.flip()
     if Area == "Outside":
         screen.fill((155, 155, 255))
     if Area == "Joe's":
-        screen.fill((204, 132, 132))
+        screen.fill((234, 162, 162))
