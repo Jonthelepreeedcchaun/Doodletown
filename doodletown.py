@@ -77,6 +77,10 @@ joestand_aimg = pygame.image.load("Joestand_a.png")
 joestand_bimg = pygame.image.load("Joestand_b.png")
 joestand_cimg = pygame.image.load("Joestand_c.png")
 
+house_aimg = pygame.image.load("House_a.png")
+house_bimg = pygame.image.load("House_b.png")
+house_cimg = pygame.image.load("House_c.png")
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -181,15 +185,21 @@ while running:
             if animation == "a":
                 screen.blit(tree_aimg, (500 + scroll_x, 450))
                 screen.blit(tree_aimg, (600 + scroll_x, 480))
+                screen.blit(tree_aimg, (800 + scroll_x, 500))
                 screen.blit(joeshop_aimg, (1200 + scroll_x, 100))
+                screen.blit(house_aimg, (3400 + scroll_x, 150))
             if animation == "b":
                 screen.blit(tree_bimg, (500 + scroll_x, 450))
                 screen.blit(tree_bimg, (600 + scroll_x, 480))
+                screen.blit(tree_bimg, (800 + scroll_x, 500))
                 screen.blit(joeshop_bimg, (1200 + scroll_x, 100))
+                screen.blit(house_bimg, (3400 + scroll_x, 150))
             if animation == "c":
                 screen.blit(tree_cimg, (500 + scroll_x, 450))
                 screen.blit(tree_cimg, (600 + scroll_x, 480))
+                screen.blit(tree_cimg, (800 + scroll_x, 500))
                 screen.blit(joeshop_cimg, (1200 + scroll_x, 100))
+                screen.blit(house_cimg, (3400 + scroll_x, 150))
 
         if Area == "Joe's":
             if scroll_x > 380:
