@@ -205,6 +205,7 @@ while running:
                 screen.blit(tree_aimg, (800 + scroll_x, 500))
                 screen.blit(shrub_aimg, (1000 + scroll_x, 700))
                 screen.blit(joeshop_aimg, (1200 + scroll_x, 100))
+                screen.blit(shrub_aimg, (2850 + scroll_x, 700))
                 screen.blit(bigtree_aimg, (3000 + scroll_x, 50))
                 screen.blit(house_aimg, (3400 + scroll_x, 150))
             if animation == "b":
@@ -213,6 +214,7 @@ while running:
                 screen.blit(tree_bimg, (800 + scroll_x, 500))
                 screen.blit(shrub_bimg, (1000 + scroll_x, 700))
                 screen.blit(joeshop_bimg, (1200 + scroll_x, 100))
+                screen.blit(shrub_bimg, (2850 + scroll_x, 700))
                 screen.blit(bigtree_bimg, (3000 + scroll_x, 50))
                 screen.blit(house_bimg, (3400 + scroll_x, 150))
             if animation == "c":
@@ -221,6 +223,7 @@ while running:
                 screen.blit(tree_cimg, (800 + scroll_x, 500))
                 screen.blit(shrub_cimg, (1000 + scroll_x, 700))
                 screen.blit(joeshop_cimg, (1200 + scroll_x, 100))
+                screen.blit(shrub_cimg, (2850 + scroll_x, 700))
                 screen.blit(bigtree_cimg, (3000 + scroll_x, 50))
                 screen.blit(house_cimg, (3400 + scroll_x, 150))
 
