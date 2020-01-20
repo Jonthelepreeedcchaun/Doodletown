@@ -49,6 +49,7 @@ nmtntime = 5
 altcount = 20
 scroll_x = 0
 mouse_visi = 1
+inventory = []
 pygame.mouse.set_visible(0)
 
 cursor_aimg = pygame.image.load('cursor_a.png')
@@ -109,6 +110,7 @@ stove_cimg = pygame.image.load("stove_c.png")
 carrot_aimg = pygame.image.load("carrot_a.png")
 carrot_bimg = pygame.image.load("carrot_b.png")
 carrot_cimg = pygame.image.load("carrot_c.png")
+cookbook_smallimg = pygame.image.load("itemsmall_book.png")
 
 running = True
 while running:
@@ -288,6 +290,7 @@ while running:
             if animation == "c":
                 screen.blit(homedoor_cimg, (810 + scroll_x, 600))
                 screen.blit(stove_cimg, (1100 + scroll_x, 620))
+            screen.blit(cookbook_smallimg, (1600 + scroll_x, 800))
 
         #Buddy animation
         if Paused == 0:
