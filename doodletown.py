@@ -69,6 +69,9 @@ tree_cimg = pygame.image.load('tree_c.png')
 shrub_aimg = pygame.image.load('shrub_a.png')
 shrub_bimg = pygame.image.load('shrub_b.png')
 shrub_cimg = pygame.image.load('shrub_c.png')
+bigtree_aimg = pygame.image.load('big_tree_a.png')
+bigtree_bimg = pygame.image.load('big_tree_b.png')
+bigtree_cimg = pygame.image.load('big_tree_c.png')
 
 joeshop_aimg = pygame.image.load("Joe's Flower Emporium_a.png")
 joeshop_bimg = pygame.image.load("Joe's Flower Emporium_b.png")
@@ -86,6 +89,9 @@ house_cimg = pygame.image.load("House_c.png")
 homedoor_aimg = pygame.image.load("HomeDoor_a.png")
 homedoor_bimg = pygame.image.load("HomeDoor_b.png")
 homedoor_cimg = pygame.image.load("HomeDoor_c.png")
+stove_aimg = pygame.image.load("stove_a.png")
+stove_bimg = pygame.image.load("stove_b.png")
+stove_cimg = pygame.image.load("stove_c.png")
 
 running = True
 while running:
@@ -199,6 +205,7 @@ while running:
                 screen.blit(tree_aimg, (800 + scroll_x, 500))
                 screen.blit(shrub_aimg, (1000 + scroll_x, 700))
                 screen.blit(joeshop_aimg, (1200 + scroll_x, 100))
+                screen.blit(bigtree_aimg, (3000 + scroll_x, 50))
                 screen.blit(house_aimg, (3400 + scroll_x, 150))
             if animation == "b":
                 screen.blit(tree_bimg, (500 + scroll_x, 450))
@@ -206,6 +213,7 @@ while running:
                 screen.blit(tree_bimg, (800 + scroll_x, 500))
                 screen.blit(shrub_bimg, (1000 + scroll_x, 700))
                 screen.blit(joeshop_bimg, (1200 + scroll_x, 100))
+                screen.blit(bigtree_bimg, (3000 + scroll_x, 50))
                 screen.blit(house_bimg, (3400 + scroll_x, 150))
             if animation == "c":
                 screen.blit(tree_cimg, (500 + scroll_x, 450))
@@ -213,6 +221,7 @@ while running:
                 screen.blit(tree_cimg, (800 + scroll_x, 500))
                 screen.blit(shrub_cimg, (1000 + scroll_x, 700))
                 screen.blit(joeshop_cimg, (1200 + scroll_x, 100))
+                screen.blit(bigtree_cimg, (3000 + scroll_x, 50))
                 screen.blit(house_cimg, (3400 + scroll_x, 150))
 
         if Area == "Joe's":
@@ -240,10 +249,13 @@ while running:
 
             if animation == "a":
                 screen.blit(homedoor_aimg, (810 + scroll_x, 600))
+                screen.blit(stove_aimg, (1100 + scroll_x, 620))
             if animation == "b":
                 screen.blit(homedoor_bimg, (810 + scroll_x, 600))
+                screen.blit(stove_bimg, (1100 + scroll_x, 620))
             if animation == "c":
                 screen.blit(homedoor_cimg, (810 + scroll_x, 600))
+                screen.blit(stove_cimg, (1100 + scroll_x, 620))
 
         #Buddy animation
         if Paused == 0:
