@@ -6,6 +6,28 @@ pygame.init()
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) #1920x1080
 #screen.blit(pygame.font.SysFont('Comic Sans MS', size).render("Text Here", False, (r, g, b)), (x, y))
 
+green = (155, 255, 155)
+
+def text_objects(text, font, colour):
+    textSurface = font.render(text, True, colour)
+    return textSurface, textSurface.get_rect()
+
+def message_display(text, position, size, colour):
+    smallText = pygame.font.Font(None, size)
+    TextSurf, TextRect = text_objects(text, smallText, colour)
+    TextRect.center = position
+    screen.blit(TextSurf, TextRect)
+
+def Append_to_save(Filename, Text):
+    Save = open("%s.txt" %Filename, "a")
+    Save.write(Text)
+    Save.close()
+
+def Overwrite_save(Filename, text):
+    Save = open("%s.txt" %Filename, "w")
+    Save.write(text)
+    Save.close()
+
 start_button_x = 0
 Quit_Button_x = 0
 A_prsd = 0
@@ -74,8 +96,6 @@ while running:
             if event.key == pygame.K_t:
                 T_prsd = 1
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_ESCAPE:
-                Esc_prsd = 0
             if event.key == pygame.K_a:
                 A_prsd = 0
             if event.key == pygame.K_w:
@@ -114,11 +134,9 @@ while running:
         Paused = 1
 
     if Game_mode == "Menu":
-        font = pygame.font.Font(None, 65)
-        text = font.render("DoodleTown", True, (155, 255, 155))
-        text_rect = text.get_rect(center = (960, 400))
-        screen.blit(text, text_rect)
+        message_display("DoodleTown", (960, 400), 65, green)
 
+#start button
         start_button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - start_button_x, 500 - start_button_x), (1020 + start_button_x, 500 - start_button_x), (1020 + start_button_x, 550 + start_button_x), (900 - start_button_x, 550 + start_button_x)])
         if start_button.collidepoint(mouse_x, mouse_y):
             start_button_x = 10
@@ -126,17 +144,19 @@ while running:
                 Game_mode = "Start"
         elif not start_button.collidepoint(mouse_x, mouse_y):
             start_button_x = 0
-        Quit_Button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - Quit_Button_x, 100 - Quit_Button_x), (1020 + Quit_Button_x, 100 - Quit_Button_x), (1020 + Quit_Button_x, 150 + Quit_Button_x), (900 - Quit_Button_x, 150 + Quit_Button_x)])
+        #my version
+        message_display("Start", (960, 525), 65, green)
+
+#Quit Button
+        Quit_Button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - Quit_Button_x, 600 - Quit_Button_x), (1020 + Quit_Button_x, 600 - Quit_Button_x), (1020 + Quit_Button_x, 650 + Quit_Button_x), (900 - Quit_Button_x, 650 + Quit_Button_x)])
         if Quit_Button.collidepoint(mouse_x, mouse_y):
             Quit_Button_x = 10
             if mouse1:
                 running = False
         elif not Quit_Button.collidepoint(mouse_x, mouse_y):
-            Quit_Button = 0
-        font = pygame.font.Font(None, 65)
-        text = font.render("Start", True, (155, 255, 155))
-        text_rect = text.get_rect(center = (960, 525))
-        screen.blit(text, text_rect)
+            Quit_Button_x = 0
+        message_display("Quit", (960, 625), 65, green)
+
 
     if Game_mode == "Start":
 
@@ -178,7 +198,15 @@ while running:
             pass
 
         #Buddy animation
-        if not A_prsd == 1 and not D_prsd == 1:
+        if Paused == 0:
+            if not A_prsd == 1 and not D_prsd == 1:
+                if animation == "a":
+                    screen.blit(buddy_aimg, (910, 650))
+                if animation == "b":
+                    screen.blit(buddy_bimg, (910, 650))
+                if animation == "c":
+                    screen.blit(buddy_cimg, (910, 650))
+        if Paused == 1:
             if animation == "a":
                 screen.blit(buddy_aimg, (910, 650))
             if animation == "b":
@@ -223,7 +251,26 @@ while running:
 
         if Paused == 1:
             if Esc_prsd == 1:
-                Paused = 0
+                start_button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - start_button_x, 500 - start_button_x), (1020 + start_button_x, 500 - start_button_x), (1020 + start_button_x, 550 + start_button_x), (900 - start_button_x, 550 + start_button_x)])
+                if start_button.collidepoint(mouse_x, mouse_y):
+                    start_button_x = 10
+                    if mouse1:
+                        Paused = 0
+                        Esc_prsd = 0
+                elif not start_button.collidepoint(mouse_x, mouse_y):
+                    start_button_x = 0
+                #my version
+                message_display("Resume", (960, 525), 45, green)
+
+
+                Quit_Button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - Quit_Button_x, 600 - Quit_Button_x), (1020 + Quit_Button_x, 600 - Quit_Button_x), (1020 + Quit_Button_x, 650 + Quit_Button_x), (900 - Quit_Button_x, 650 + Quit_Button_x)])
+                if Quit_Button.collidepoint(mouse_x, mouse_y):
+                    Quit_Button_x = 10
+                    if mouse1:
+                        running = False
+                elif not Quit_Button.collidepoint(mouse_x, mouse_y):
+                    Quit_Button_x = 0
+                message_display("Quit", (960, 625), 65, green)
 
     pygame.time.wait(10)
     pygame.display.flip()
