@@ -36,6 +36,7 @@ W_prsd = 0
 S_prsd = 0
 D_prsd = 0
 T_prsd = 0
+Q_prsd = 0
 Enter_prsd = 0
 Space_prsd = 0
 Esc_prsd = 0
@@ -102,6 +103,9 @@ homedoor_cimg = pygame.image.load("HomeDoor_c.png")
 stove_aimg = pygame.image.load("stove_a.png")
 stove_bimg = pygame.image.load("stove_b.png")
 stove_cimg = pygame.image.load("stove_c.png")
+carrot_aimg = pygame.image.load("carrot_a.png")
+carrot_bimg = pygame.image.load("carrot_b.png")
+carrot_cimg = pygame.image.load("carrot_c.png")
 
 running = True
 while running:
@@ -125,6 +129,8 @@ while running:
                 Space_prsd = 1
             if event.key == pygame.K_t:
                 T_prsd = 1
+            if event.key == pygame.K_q:
+                Q_prsd = 1
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 A_prsd = 0
@@ -140,6 +146,8 @@ while running:
                 Space_prsd = 0
             if event.key == pygame.K_t:
                 T_prsd = 0
+            if event.key == pygame.K_q:
+                Q_prsd = 0
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
     mouse1, mouse3, mouse2 = pygame.mouse.get_pressed()
@@ -330,6 +338,10 @@ while running:
                     if altcount > 10:
                         screen.blit(buddy_2cimg, (910, 650))
 
+            if Q_prsd == 1:
+                minigame = "inventory"
+                Paused = 1
+
         if Paused == 1:
             mouse_visi = 1
             if Esc_prsd == 1:
@@ -375,8 +387,16 @@ while running:
                     Quit_Button_x = 0
                 message_display("Back", (160, 105), 65, green)
 
+                if minigame == "inventory":
+                    pass
+
                 if minigame == "cooking":
-                    print("Success")
+                    if animation == "a":
+                        screen.blit(carrot_aimg, (mouse_x, mouse_y))
+                    if animation == "b":
+                        screen.blit(carrot_bimg, (mouse_x, mouse_y))
+                    if animation == "c":
+                        screen.blit(carrot_cimg, (mouse_x, mouse_y))
 
     if mouse_visi == 1:
         if animation == "a":
