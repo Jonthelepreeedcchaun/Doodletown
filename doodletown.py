@@ -54,6 +54,9 @@ pygame.mouse.set_visible(0)
 cursor_aimg = pygame.image.load('cursor_a.png')
 cursor_bimg = pygame.image.load('cursor_b.png')
 cursor_cimg = pygame.image.load('cursor_c.png')
+inv_aimg = pygame.image.load('inv_a.png')
+inv_bimg = pygame.image.load('inv_b.png')
+inv_cimg = pygame.image.load('inv_c.png')
 
 buddy_aimg = pygame.image.load('buddy_a.png')
 buddy_bimg = pygame.image.load('buddy_b.png')
@@ -388,7 +391,12 @@ while running:
                 message_display("Back", (160, 105), 65, green)
 
                 if minigame == "inventory":
-                    pass
+                    if animation == "a":
+                        screen.blit(inv_aimg, (0, 0))
+                    if animation == "b":
+                        screen.blit(inv_bimg, (0, 0))
+                    if animation == "c":
+                        screen.blit(inv_cimg, (0, 0))
 
                 if minigame == "cooking":
                     if animation == "a":
