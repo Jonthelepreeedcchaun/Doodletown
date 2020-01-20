@@ -89,6 +89,9 @@ joedoor_cimg = pygame.image.load("Joe's Door_c.png")
 joestand_aimg = pygame.image.load("Joestand_a.png")
 joestand_bimg = pygame.image.load("Joestand_b.png")
 joestand_cimg = pygame.image.load("Joestand_c.png")
+joeshelf_aimg = pygame.image.load("shelf_a.png")
+joeshelf_bimg = pygame.image.load("shelf_b.png")
+joeshelf_cimg = pygame.image.load("shelf_c.png")
 
 house_aimg = pygame.image.load("House_a.png")
 house_bimg = pygame.image.load("House_b.png")
@@ -240,18 +243,21 @@ while running:
                 Area = "Outside"
                 scroll_x = -770
 
-            if scroll_x < -1840 and A_prsd == 1:
+            if scroll_x < -1840 and A_prsd == 1 and scroll_x > -8125:
                 scroll_x = -1840
 
             if animation == "a":
                 screen.blit(joedoor_aimg, (500 + scroll_x, 600))
                 screen.blit(joestand_aimg, (1000 + scroll_x, 600))
+                screen.blit(joeshelf_aimg, (10000 + scroll_x, 450))
             if animation == "b":
                 screen.blit(joedoor_bimg, (500 + scroll_x, 600))
                 screen.blit(joestand_bimg, (1000 + scroll_x, 600))
+                screen.blit(joeshelf_bimg, (10000 + scroll_x, 450))
             if animation == "c":
                 screen.blit(joedoor_cimg, (500 + scroll_x, 600))
                 screen.blit(joestand_cimg, (1000 + scroll_x, 600))
+                screen.blit(joeshelf_cimg, (10000 + scroll_x, 450))
 
         if Area == "Home":
             if scroll_x > 80:
