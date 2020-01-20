@@ -42,10 +42,17 @@ Esc_prsd = 0
 Game_mode = "Menu"
 Paused = 0
 Area = "Outside"
+minigame = ""
 animation = "a"
 nmtntime = 5
 altcount = 20
 scroll_x = 0
+mouse_visi = 1
+pygame.mouse.set_visible(0)
+
+cursor_aimg = pygame.image.load('cursor_a.png')
+cursor_bimg = pygame.image.load('cursor_b.png')
+cursor_cimg = pygame.image.load('cursor_c.png')
 
 buddy_aimg = pygame.image.load('buddy_a.png')
 buddy_bimg = pygame.image.load('buddy_b.png')
@@ -154,6 +161,7 @@ while running:
         Paused = 1
 
     if Game_mode == "Menu":
+        mouse_visi = 1
         message_display("DoodleTown", (960, 400), 65, green)
 
 #start button
@@ -179,7 +187,7 @@ while running:
 
 
     if Game_mode == "Start":
-
+        mouse_visi = 0
         if T_prsd == 1:
             print("xpos is", scroll_x)
 
@@ -250,6 +258,10 @@ while running:
                 Area = "Outside"
                 scroll_x = -2785
 
+            if scroll_x < -165 and scroll_x > -420 and W_prsd == 1:
+                minigame = "cooking"
+                Paused = 1
+
             if animation == "a":
                 screen.blit(homedoor_aimg, (810 + scroll_x, 600))
                 screen.blit(stove_aimg, (1100 + scroll_x, 620))
@@ -313,6 +325,7 @@ while running:
                         screen.blit(buddy_2cimg, (910, 650))
 
         if Paused == 1:
+            mouse_visi = 1
             if Esc_prsd == 1:
                 start_button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - start_button_x, 500 - start_button_x), (1020 + start_button_x, 500 - start_button_x), (1020 + start_button_x, 550 + start_button_x), (900 - start_button_x, 550 + start_button_x)])
                 if start_button.collidepoint(mouse_x, mouse_y):
@@ -346,8 +359,26 @@ while running:
                 elif not Save_Button.collidepoint(mouse_x, mouse_y):
                     Save_Button_x = 0
                 message_display("Save", (960, 725), 65, green)
+            elif Esc_prsd == 0: #minigames
+                Quit_Button = pygame.draw.polygon(screen, (255, 255, 255), [(100 - Quit_Button_x, 80 - Quit_Button_x), (220 + Quit_Button_x, 80 - Quit_Button_x), (220 + Quit_Button_x, 130 + Quit_Button_x), (100 - Quit_Button_x, 130 + Quit_Button_x)])
+                if Quit_Button.collidepoint(mouse_x, mouse_y):
+                    Quit_Button_x = 10
+                    if mouse1:
+                        Paused = 0
+                elif not Quit_Button.collidepoint(mouse_x, mouse_y):
+                    Quit_Button_x = 0
+                message_display("Back", (160, 105), 65, green)
 
+                if minigame == "cooking":
+                    print("Success")
 
+    if mouse_visi == 1:
+        if animation == "a":
+            screen.blit(cursor_aimg, (mouse_x, mouse_y))
+        if animation == "b":
+            screen.blit(cursor_bimg, (mouse_x, mouse_y))
+        if animation == "c":
+            screen.blit(cursor_cimg, (mouse_x, mouse_y))
     pygame.time.wait(10)
     pygame.display.flip()
     if Area == "Outside":
