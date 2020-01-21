@@ -1,6 +1,7 @@
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import sys, math, pygame, random, time
+import pickle
 pygame.init()
 
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) #1920x1080
@@ -49,7 +50,16 @@ nmtntime = 5
 altcount = 20
 scroll_x = 0
 mouse_visi = 1
-inventory = []
+inventory = ["cookbook"]
+slot1open = "cookbook"
+slot2open = 1
+slot3open = 1
+slot4open = 1
+grabbed = 0
+equipped = 0
+cookbookicon_exception = 0
+
+savdata = {'Area':str(Area), 'scroll_x':str(scroll_x)}
 pygame.mouse.set_visible(0)
 
 cursor_aimg = pygame.image.load('cursor_a.png')
@@ -111,9 +121,16 @@ carrot_aimg = pygame.image.load("carrot_a.png")
 carrot_bimg = pygame.image.load("carrot_b.png")
 carrot_cimg = pygame.image.load("carrot_c.png")
 cookbook_smallimg = pygame.image.load("itemsmall_book.png")
+cookbook_largeimg = pygame.image.load("itemlarge_book.png")
 
 running = True
 while running:
+    with open('savefile', 'wb') as f:
+        pickle.dump(savdata, f)
+
+    with open('savefile', 'rb') as f:
+        data = pickle.load(f)
+    print(data)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -281,6 +298,22 @@ while running:
                 minigame = "cooking"
                 Paused = 1
 
+            if scroll_x < -625 and scroll_x > -705 and S_prsd and not "cookbook" in inventory:
+                if slot1open == 1:
+                    inventory.append("cookbook")
+                    slot1open = "cookbook"
+                elif slot2open == 1:
+                    inventory.append("cookbook")
+                    slot2open = "cookbook"
+                elif slot3open == 1:
+                    inventory.append("cookbook")
+                    slot3open = "cookbook"
+                elif slot4open == 1:
+                    inventory.append("cookbook")
+                    slot4open = "cookbook"
+                else:
+                    message_display("No room in inventory!", (100, 100), 65, red)
+
             if animation == "a":
                 screen.blit(homedoor_aimg, (810 + scroll_x, 600))
                 screen.blit(stove_aimg, (1100 + scroll_x, 620))
@@ -290,7 +323,8 @@ while running:
             if animation == "c":
                 screen.blit(homedoor_cimg, (810 + scroll_x, 600))
                 screen.blit(stove_cimg, (1100 + scroll_x, 620))
-            screen.blit(cookbook_smallimg, (1600 + scroll_x, 800))
+            if not "cookbook" in inventory:
+                screen.blit(cookbook_smallimg, (1600 + scroll_x, 800))
 
         #Buddy animation
         if Paused == 0:
@@ -400,6 +434,84 @@ while running:
                         screen.blit(inv_bimg, (0, 0))
                     if animation == "c":
                         screen.blit(inv_cimg, (0, 0))
+
+                    if equipped == "cookbook":
+                        screen.blit(cookbook_largeimg, (815, 700))
+                        if not "cookbook" in inventory:
+                            equipped = 0
+
+                    if "cookbook" in inventory:
+                        if slot1open == "cookbook" and cookbookicon_exception == 0:
+                            cookbookicon_x = 162
+                            cookbookicon_y = 248
+                        if slot2open == "cookbook" and cookbookicon_exception == 0:
+                            cookbookicon_x = 588
+                            cookbookicon_y = 248
+                        if slot3open == "cookbook" and cookbookicon_exception == 0:
+                            cookbookicon_x = 1046
+                            cookbookicon_y = 248
+                        if slot4open == "cookbook" and cookbookicon_exception == 0:
+                            cookbookicon_x = 1488
+                            cookbookicon_y = 248
+
+                        cookbookicon = screen.blit(cookbook_largeimg, (cookbookicon_x, cookbookicon_y))
+                        if cookbookicon.collidepoint(mouse_x, mouse_y) and mouse1 == 1:
+                            if grabbed == 0 or grabbed == "cookbook":
+                                grabbed = "cookbook"
+                                cookbookicon_exception = 1
+                                cookbookicon_x = mouse_x - 110
+                                cookbookicon_y = mouse_y - 110
+                                if cookbookicon_y < 450:
+                                    if cookbookicon_x < 250 and slot1open == 1:
+                                        slot1open = "cookbook"
+                                        if slot2open == "cookbook":
+                                            slot2open = 1
+                                        if slot3open == "cookbook":
+                                            slot3open = 1
+                                        if slot4open == "cookbook":
+                                            slot4open = 1
+                                    if cookbookicon_x > 250 and cookbookicon_x < 800 and slot2open == 1:
+                                        slot2open = "cookbook"
+                                        if slot1open == "cookbook":
+                                            slot1open = 1
+                                        if slot3open == "cookbook":
+                                            slot3open = 1
+                                        if slot4open == "cookbook":
+                                            slot4open = 1
+                                    if cookbookicon_x > 800 and cookbookicon_x < 1200 and slot3open == 1:
+                                        slot3open = "cookbook"
+                                        if slot1open == "cookbook":
+                                            slot1open = 1
+                                        if slot2open == "cookbook":
+                                            slot2open = 1
+                                        if slot4open == "cookbook":
+                                            slot4open = 1
+                                    if cookbookicon_x > 1200 and slot4open == 1:
+                                        slot4open = "cookbook"
+                                        if slot1open == "cookbook":
+                                            slot1open = 1
+                                        if slot2open == "cookbook":
+                                            slot2open = 1
+                                        if slot3open == "cookbook":
+                                            slot3open = 1
+                                elif cookbookicon_y > 450 and cookbookicon_x > 650 and cookbookicon_x < 950:
+                                    equipped = "cookbook"
+                        else:
+                            cookbookicon_exception = 0
+
+                        if cookbookicon.collidepoint(mouse_x, mouse_y) and mouse2 == 1:
+                            inventory.remove("cookbook")
+                            if slot1open == "cookbook":
+                                slot1open = 1
+                            elif slot2open == "cookbook":
+                                slot2open = 1
+                            elif slot3open == "cookbook":
+                                slot3open = 1
+                            elif slot4open == "cookbook":
+                                slot4open = 1
+
+                    if not grabbed == "cookbook": #add all items here
+                        grabbed = 0
 
                 if minigame == "cooking":
                     if animation == "a":
