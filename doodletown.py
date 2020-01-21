@@ -50,16 +50,21 @@ nmtntime = 5
 altcount = 20
 scroll_x = 0
 mouse_visi = 1
-inventory = ["cookbook"]
-slot1open = "cookbook"
+inventory = []
+slot1open = 1
 slot2open = 1
 slot3open = 1
 slot4open = 1
 grabbed = 0
 equipped = 0
 cookbookicon_exception = 0
+saveslot = 0
 
-savdata = {'Area':str(Area), 'scroll_x':str(scroll_x)}
+
+savdata = {'Area':Area, 'scroll_x':scroll_x, 'inventory':inventory}
+data1 = {'Area':Area, 'scroll_x':scroll_x, 'inventory':inventory}
+data2 = {'Area':Area, 'scroll_x':scroll_x, 'inventory':inventory}
+data3 = {'Area':Area, 'scroll_x':scroll_x, 'inventory':inventory}
 pygame.mouse.set_visible(0)
 
 cursor_aimg = pygame.image.load('cursor_a.png')
@@ -125,12 +130,22 @@ cookbook_largeimg = pygame.image.load("itemlarge_book.png")
 
 running = True
 while running:
-    with open('savefile', 'wb') as f:
-        pickle.dump(savdata, f)
-
-    with open('savefile', 'rb') as f:
-        data = pickle.load(f)
-    print(data)
+    savdata = {'Area':Area, 'scroll_x':scroll_x, 'inventory':inventory}
+    if saveslot == 1:
+        with open('savefile1', 'wb') as f:
+            pickle.dump(savdata, f)
+        with open('savefile1', 'rb') as f:
+            data1 = pickle.load(f)
+    if saveslot == 2:
+        with open('savefile2', 'wb') as f:
+            pickle.dump(savdata, f)
+        with open('savefile2', 'rb') as f:
+            data2 = pickle.load(f)
+    if saveslot == 3:
+        with open('savefile3', 'wb') as f:
+            pickle.dump(savdata, f)
+        with open('savefile3', 'rb') as f:
+            data3 = pickle.load(f)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -202,7 +217,7 @@ while running:
         if start_button.collidepoint(mouse_x, mouse_y):
             start_button_x = 10
             if mouse1:
-                Game_mode = "Start"
+                Game_mode = "Loadmenu"
         elif not start_button.collidepoint(mouse_x, mouse_y):
             start_button_x = 0
         #my version
@@ -218,6 +233,49 @@ while running:
             Quit_Button_x = 0
         message_display("Quit", (960, 625), 65, green)
 
+    ##Loadmenu
+    if Game_mode == "Loadmenu":
+        start_button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - start_button_x, 500 - start_button_x), (1020 + start_button_x, 500 - start_button_x), (1020 + start_button_x, 550 + start_button_x), (900 - start_button_x, 550 + start_button_x)])
+        if start_button.collidepoint(mouse_x, mouse_y):
+            start_button_x = 10
+            if mouse1:
+                saveslot = 1
+                Area = data1['Area']
+                scroll_x = data1['scroll_x']
+                inventory = data1['inventory']
+                Game_mode = "Start"
+        elif not start_button.collidepoint(mouse_x, mouse_y):
+            start_button_x = 0
+        #my version
+        message_display("Save 1", (960, 525), 45, green)
+
+
+        Quit_Button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - Quit_Button_x, 600 - Quit_Button_x), (1020 + Quit_Button_x, 600 - Quit_Button_x), (1020 + Quit_Button_x, 650 + Quit_Button_x), (900 - Quit_Button_x, 650 + Quit_Button_x)])
+        if Quit_Button.collidepoint(mouse_x, mouse_y):
+            Quit_Button_x = 10
+            if mouse1:
+                saveslot = 2
+                Area = data2['Area']
+                scroll_x = data2['scroll_x']
+                inventory = data2['inventory']
+                Game_mode = "Start"
+        elif not Quit_Button.collidepoint(mouse_x, mouse_y):
+            Quit_Button_x = 0
+        message_display("Save 2", (960, 625), 65, green)
+
+
+        Save_Button = pygame.draw.polygon(screen, (255, 255, 255), [(900 - Save_Button_x, 700 - Save_Button_x), (1020 + Save_Button_x, 700 - Save_Button_x), (1020 + Save_Button_x, 750 + Save_Button_x), (900 - Save_Button_x, 750 + Save_Button_x)])
+        if Save_Button.collidepoint(mouse_x, mouse_y):
+            Save_Button_x = 10
+            if mouse1:
+                saveslot = 3
+                Area = data3['Area']
+                scroll_x = data3['scroll_x']
+                inventory = data3['inventory']
+                Game_mode = "Start"
+        elif not Save_Button.collidepoint(mouse_x, mouse_y):
+            Save_Button_x = 0
+        message_display("Save 3", (960, 725), 65, green)
 
     if Game_mode == "Start":
         mouse_visi = 0
